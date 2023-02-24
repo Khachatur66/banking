@@ -23,6 +23,11 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.getById(id));
     }
 
+    @GetMapping("/balance/{id}")
+    public ResponseEntity<?> getBalanceById(@PathVariable(value = "id") int id) throws NotFoundException {
+        return ResponseEntity.ok(customerService.getCustomerBalanceById(id));
+    }
+
     @GetMapping
     public ResponseEntity<List<Customer>> getAll() {
         return ResponseEntity.ok(customerService.getAll());

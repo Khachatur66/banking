@@ -12,4 +12,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query("SELECT c FROM Customer c WHERE c.id = ?1")
     Optional<Customer> getById(int id);
+
+    @Query("SELECT c.money_AMD FROM Customer c WHERE c.id = ?1")
+    Optional<Long> findCustomerBalanceById(int id);
 }

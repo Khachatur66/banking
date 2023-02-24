@@ -12,7 +12,7 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionHandlerAdvice {
 
-//    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundException(NotFoundException e) {
         return new ResponseEntity<>(createMessage(e, HttpStatus.NOT_FOUND), HttpStatus.NOT_FOUND);
     }

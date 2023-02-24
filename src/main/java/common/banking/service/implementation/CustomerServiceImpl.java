@@ -19,7 +19,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getById(int id) throws NotFoundException {
-        return customerRepository.getById(id).orElseThrow(() -> new NotFoundException("Could not find Customer with current id"));
+        return customerRepository.getById(id).orElseThrow(() -> new NotFoundException("Could not find Customer with current id: " + id));
+    }
+
+    @Override
+    public Long getCustomerBalanceById(int id) throws NotFoundException {
+        return customerRepository.findCustomerBalanceById(id).orElseThrow(() -> new NotFoundException("Could not find Customer with current id: " + id));
     }
 
     @Override

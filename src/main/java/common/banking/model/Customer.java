@@ -1,30 +1,54 @@
 package common.banking.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import common.banking.enums.CurrencyStatus;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
 
-    String firstName;
+    @Column(nullable = false)
+    private String firstName;
+    @Column(nullable = false)
+    private String lastName;
+    @Column(nullable = false)
+    private String email;
 
-    String lastName;
+    @JsonIgnore
+    private boolean hasCredit;
 
-    String email;
+    @JsonIgnore
+    private short creditAmount;
 
-    String address;
+    @JsonIgnore
+    private long money_AMD;
 
-    boolean hasCredit;
+    @JsonIgnore
+    private long money_USD;
 
-    short creditAmount;
+    @JsonIgnore
+    private long money_EUR;
 
-    long money;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "customer_address",
+    joinColumns = @JoinColumn(name = "customer"),
+    inverseJoinColumns = @JoinColumn(name = "address"))
+    private List<Address> address;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Credit> credit;
+
+    public Customer() {
+        this.hasCredit = false;
+        this.creditAmount = 0;
+    }
 
     public int getId() {
         return id;
@@ -58,11 +82,11 @@ public class Customer {
         this.email = email;
     }
 
-    public String getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(List<Address> address) {
         this.address = address;
     }
 
@@ -82,11 +106,56 @@ public class Customer {
         this.creditAmount = creditAmount;
     }
 
-    public long getMoney() {
-        return money;
+    public long getMoney_AMD() {
+        return money_AMD;
     }
 
-    public void setMoney(long money) {
-        this.money = money;
+    public void setMoney_AMD(long money_AMD) {
+        this.money_AMD = money_AMD;
+    }
+
+    public long getMoney_USD() {
+        return money_USD;
+    }
+
+    public void setMoney_USD(long money_USD) {
+        this.money_USD = money_USD;
+    }
+
+    public long getMoney_EUR() {
+        return money_EUR;
+    }
+
+    public void setMoney_EUR(long money_EUR) {
+        this.money_EUR = money_EUR;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return id == customer.id && hasCredit == customer.hasCredit && creditAmount == customer.creditAmount && money_AMD == customer.money_AMD && money_USD == customer.money_USD && money_EUR == customer.money_EUR && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, email, hasCredit, creditAmount, money_AMD, money_USD, money_EUR, address);
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", hasCredit=" + hasCredit +
+                ", creditAmount=" + creditAmount +
+                ", money_AMD=" + money_AMD +
+                ", money_USD=" + money_USD +
+                ", money_EUR=" + money_EUR +
+                ", address=" + address +
+                '}';
     }
 }
