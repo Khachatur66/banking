@@ -1,7 +1,10 @@
 package common.banking.service.implementation;
 
+import common.banking.dto.request.CustomerRequest;
 import common.banking.exception.NotFoundException;
+import common.banking.model.Credit;
 import common.banking.model.Customer;
+import common.banking.repository.CreditRepository;
 import common.banking.repository.CustomerRepository;
 import common.banking.service.interfaces.CustomerService;
 import org.springframework.stereotype.Service;
@@ -13,8 +16,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    private final CreditRepository creditRepository;
+
+    public CustomerServiceImpl(CustomerRepository customerRepository, CreditRepository creditRepository) {
         this.customerRepository = customerRepository;
+        this.creditRepository = creditRepository;
     }
 
     @Override
@@ -39,7 +45,22 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void update(Customer customer) {
+       /*Customer customer1 = customerRepository.getByPassportNumber(customer.getPassportNumber());
+
+       if (customer1.isHasCredit()) {
+         int creditAmount = customerRepository.countCustomerByPassportNumber(customer1.getPassportNumber());
+       }*/
         customerRepository.save(customer);
+    }
+
+    @Override
+    public void updateCustomer(CustomerRequest request) {
+        Credit credit = creditRepository.findByPassportNumber(request.getPassportNumber());
+        Customer customer = customerRepository.findByPassportNumber(request.getPassportNumber());
+
+        if (customer != null || credit != null) {
+            customer.setHasCredit(request.isHasCredit());
+        }
     }
 
     @Override

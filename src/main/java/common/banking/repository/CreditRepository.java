@@ -12,5 +12,10 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
 
     @Query("SELECT c FROM Credit c WHERE c.id = ?1")
     Optional<Credit> getById(int id);
+
+    Credit findByCreditNumber(String creditNumber);
+
+    @Query("SELECT c FROM Credit c WHERE c.passportNumber = ?1")
+    Credit findByPassportNumber(String passportNumber);
 }
 

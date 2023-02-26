@@ -1,5 +1,6 @@
 package common.banking.controller;
 
+import common.banking.dto.request.CustomerRequest;
 import common.banking.exception.NotFoundException;
 import common.banking.model.Customer;
 import common.banking.service.interfaces.CustomerService;
@@ -42,6 +43,12 @@ public class CustomerController {
     @PutMapping
     public ResponseEntity<Void> update(@RequestBody Customer customer) {
         customerService.update(customer);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/dto")
+    public ResponseEntity<Void> updateCustomer(@RequestBody CustomerRequest customerRequest) {
+        customerService.updateCustomer(customerRequest);
         return ResponseEntity.ok().build();
     }
 

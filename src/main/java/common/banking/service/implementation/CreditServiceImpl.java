@@ -4,6 +4,7 @@ import common.banking.exception.NotFoundException;
 import common.banking.model.Credit;
 import common.banking.repository.CreditRepository;
 import common.banking.service.interfaces.CreditService;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +30,9 @@ public class CreditServiceImpl implements CreditService {
 
     @Override
     public void save(Credit credit) {
+         String creditNumber = this.createVerificationCode();
+         credit.setCreditNumber(creditNumber);
+
         creditRepository.save(credit);
     }
 
@@ -40,5 +44,15 @@ public class CreditServiceImpl implements CreditService {
     @Override
     public void deleteById(int id) {
         creditRepository.deleteById(id);
+    }
+
+    private String createVerificationCode() {
+        String creditNumber;
+
+        do {
+            creditNumber = RandomStringUtils.randomAlphanumeric(8);
+        } while (creditRepository.findByCreditNumber(creditNumber) != null);
+
+        return creditNumber;
     }
 }

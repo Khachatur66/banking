@@ -27,6 +27,9 @@ public class Customer {
     @JsonIgnore
     private short creditAmount;
 
+    @Column(nullable = false)
+    private String passportNumber;
+
     @JsonIgnore
     private long money_AMD;
 
@@ -48,6 +51,14 @@ public class Customer {
     public Customer() {
         this.hasCredit = false;
         this.creditAmount = 0;
+        this.money_AMD = 0;
+        this.money_USD = 0;
+        this.money_EUR = 0;
+    }
+
+    public Customer(boolean hasCredit, short creditAmount) {
+        this.hasCredit = hasCredit;
+        this.creditAmount = creditAmount;
     }
 
     public int getId() {
@@ -106,6 +117,22 @@ public class Customer {
         this.creditAmount = creditAmount;
     }
 
+    public String getPassportNumber() {
+        return passportNumber;
+    }
+
+    public void setPassportNumber(String passportNumber) {
+        this.passportNumber = passportNumber;
+    }
+
+    public List<Credit> getCredit() {
+        return credit;
+    }
+
+    public void setCredit(List<Credit> credit) {
+        this.credit = credit;
+    }
+
     public long getMoney_AMD() {
         return money_AMD;
     }
@@ -135,12 +162,12 @@ public class Customer {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Customer customer = (Customer) o;
-        return id == customer.id && hasCredit == customer.hasCredit && creditAmount == customer.creditAmount && money_AMD == customer.money_AMD && money_USD == customer.money_USD && money_EUR == customer.money_EUR && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(address, customer.address);
+        return id == customer.id && hasCredit == customer.hasCredit && creditAmount == customer.creditAmount && money_AMD == customer.money_AMD && money_USD == customer.money_USD && money_EUR == customer.money_EUR && Objects.equals(firstName, customer.firstName) && Objects.equals(lastName, customer.lastName) && Objects.equals(email, customer.email) && Objects.equals(passportNumber, customer.passportNumber) && Objects.equals(address, customer.address) && Objects.equals(credit, customer.credit);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, email, hasCredit, creditAmount, money_AMD, money_USD, money_EUR, address);
+        return Objects.hash(id, firstName, lastName, email, hasCredit, creditAmount, passportNumber, money_AMD, money_USD, money_EUR, address, credit);
     }
 
     @Override
@@ -152,10 +179,12 @@ public class Customer {
                 ", email='" + email + '\'' +
                 ", hasCredit=" + hasCredit +
                 ", creditAmount=" + creditAmount +
+                ", passportNumber='" + passportNumber + '\'' +
                 ", money_AMD=" + money_AMD +
                 ", money_USD=" + money_USD +
                 ", money_EUR=" + money_EUR +
                 ", address=" + address +
+                ", credit=" + credit +
                 '}';
     }
 }
