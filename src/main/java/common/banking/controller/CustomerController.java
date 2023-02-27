@@ -47,7 +47,7 @@ public class CustomerController {
     }
 
     @PutMapping("/dto")
-    public ResponseEntity<Void> updateCustomer(@RequestBody CustomerRequest customerRequest) {
+    public ResponseEntity<Void> updateCustomer(@RequestBody CustomerRequest customerRequest) throws NotFoundException {
         customerService.updateCustomer(customerRequest);
         return ResponseEntity.ok().build();
     }

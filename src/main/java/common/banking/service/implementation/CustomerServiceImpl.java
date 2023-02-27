@@ -54,13 +54,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateCustomer(CustomerRequest request) {
-        Credit credit = creditRepository.findByPassportNumber(request.getPassportNumber());
-        Customer customer = customerRepository.findByPassportNumber(request.getPassportNumber());
+    public void updateCustomer(CustomerRequest request) throws NotFoundException {
+        /*Customer customer = customerRepository.findByPassportNumber(request.getPassportNumber());
+        CustomerRequest customerRequest = customerRepository.getByPassportNumber(request.getPassportNumber());
 
-        if (customer != null || credit != null) {
-            customer.setHasCredit(request.isHasCredit());
-        }
+        if (customerRequest != null) {
+            customerRequest.setHasCredit(request.isHasCredit());
+        }else {
+            throw new NotFoundException("Illegal argument");
+        }*/
     }
 
     @Override

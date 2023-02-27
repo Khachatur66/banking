@@ -9,6 +9,6 @@ public interface CustomerService extends AbstractService<Customer>{
 
     Long getCustomerBalanceById(int id) throws NotFoundException;
 
-    void updateCustomer(CustomerRequest request);
+    void updateCustomer(CustomerRequest request) throws NotFoundException;
 
 }

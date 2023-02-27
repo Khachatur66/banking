@@ -1,5 +1,7 @@
 package common.banking.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -16,4 +18,11 @@ public class CustomerRequest {
 
     @Positive(message = "Credit Amount must be positive number:")
     private short creditAmount;
+
+    @JsonCreator
+    public CustomerRequest(@JsonProperty("passportNumber") String passportNumber, @JsonProperty("hasCredit") boolean hasCredit, @JsonProperty("creditAmount") short creditAmount) {
+        this.passportNumber = passportNumber;
+        this.hasCredit = hasCredit;
+        this.creditAmount = creditAmount;
+    }
 }
